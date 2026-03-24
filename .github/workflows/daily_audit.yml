@@ -1,11 +1,11 @@
 name: ZSP Autonomous Auditor
 on:
   schedule:
-    - cron: '0 23 * * *' # 11 PM UTC Daily
-  workflow_dispatch:      # Manual Trigger Button
+    - cron: '0 23 * * *'
+  workflow_dispatch:
 
+# Fix for the Node 20 Deprecation Warning
 env:
-  # FIX: Silences the Node 20 deprecation warning by opting into Node 24
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
@@ -18,8 +18,9 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      # Use version 6 for Node 24 support in 2026
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
@@ -28,7 +29,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install anthropic sec-api
 
-      # FIX: Creates the folder so 'dispatcher.py' doesn't fail with Exit Code 1
+      # FIX: Ensure the audits directory exists before the script runs
       - name: Prepare Workspace
         run: mkdir -p audits
 
@@ -38,11 +39,10 @@ jobs:
           SEC_API_KEY: ${{ secrets.SEC_API_KEY }}
         run: python dispatcher.py
 
-      - name: Commit and Push
+      - name: Commit and Push Audit Logs
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "ZSP-Bot"
           git add audits/*.md
-          # Prevents the job from failing if no new filings were found today
-          git commit -m "ZSP Audit Update [$(date)]" || echo "No changes to commit"
+          git commit -m "New ZSP Audit Log [$(date)]" || echo "No changes to commit"
           git push
