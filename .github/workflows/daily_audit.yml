@@ -1,0 +1,30 @@
+name: ZSP Autonomous Auditor
+on:
+  schedule:
+    - cron: '0 23 * * *' # Runs at 11pm UTC daily
+  workflow_dispatch:      # Adds a manual "Run" button
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install
+        run: pip install anthropic sec-api
+      - name: Audit
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SEC_API_KEY: ${{ secrets.SEC_API_KEY }}
+        run: python dispatcher.py
+      - name: Save
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "ZSP-Bot"
+          git add audits/*.md
+          git commit -m "ZSP Audit Update" || exit 0
+          git push
