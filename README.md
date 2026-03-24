@@ -1,4 +1,16 @@
-# ZPS2_Logic-Engine
+# ZPS2_Logic-Engine 
+![ZSP Audit Status](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME/actions/workflows/daily_audit.yml/badge.svg)
+
+## 📡 Live Market Telemetry (Latest Audit)
+| Ticker | Last Audit Date | ZSP State | Resistance Index |
+| :--- | :--- | :--- | :--- |
+| **FCX** | 2026-03-24| 🟢 CONDUCTOR| Stage 1|
+| **RIO** | 2026-03-24| 🟡 INSULATOR| Stage 2|
+| **BHP** | 2026-03-24| 🔴 CORRODED| Stage 4|
+
+> [!TIP]
+> **ZSP v2.1 Logic:** Audits are generated daily at 11 PM UTC via Claude 4.6. Click on a Ticker to view the full behavioral brief in the `/audits` folder.
+---# ZPS2_Logic-Engine
 v2.1: A modular logic engine bridging physical supply chain telemetry and legal heuristics for autonomous risk auditing.
 
 🛡️ Zavala Sovereignty Protocol (ZSP) v2.1
