@@ -3,6 +3,8 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 23 * * *'
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 jobs:
   audit:
     runs-on: ubuntu-latest
@@ -26,6 +28,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "ZSP-Bot"
-          git add audits/*.md
+          git add audits/ || true
           git commit -m "ZSP Update" || exit 0
           git push
