@@ -1,11 +1,11 @@
 name: ZSP Autonomous Auditor
 on:
   schedule:
-    - cron: '0 23 * * *'
-  workflow_dispatch:
+    - cron: '0 23 * * *' # Runs at 11 PM UTC Daily
+  workflow_dispatch:      # Manual 'Run' Button
 
 env:
-  # This kills the Node 20 warning instantly
+  # Opts into the 2026 Node 24 standard to clear deprecation warnings
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 2. Set up Python
-        # Version 6 is the 2026 standard for Node 24 support
+        # Version 6 is the stable 2026 release for Node 24 support
         uses: actions/setup-python@v6
         with:
           python-version: '3.11'
@@ -29,24 +29,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install anthropic sec-api
 
-      - name: 4. Debug & Prepare
-        run: |
-          echo "Checking for dispatcher.py..."
-          ls -l dispatcher.py || (echo "ERROR: dispatcher.py not found in root!" && exit 1)
-          mkdir -p audits
-          echo "Workspace ready."
+      # CRITICAL FIX: Ensures the 'audits' folder exists so the script doesn't crash
+      - name: 4. Prepare Workspace
+        run: mkdir -p audits
 
       - name: 5. Execute ZSP Dispatcher
         env:
-          # Verify these names match exactly what you typed in Settings > Secrets
+          # These must match your 'Settings > Secrets' names exactly
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           SEC_API_KEY: ${{ secrets.SEC_API_KEY }}
         run: python dispatcher.py
 
-      - name: 6. Commit and Push
+      - name: 6. Commit and Push Reports
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "ZSP-Bot"
           git add audits/*.md
-          git commit -m "ZSP Audit Update [$(date)]" || echo "No changes"
+          # Prevents failure if no new SEC filings were found today
+          git commit -m "ZSP Audit Update [$(date)]" || echo "No changes to commit"
           git push
