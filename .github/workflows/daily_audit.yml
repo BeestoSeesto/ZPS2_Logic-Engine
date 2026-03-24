@@ -3,11 +3,6 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 23 * * *'
-
-env:
-  # This kills the Node 20 warning by forcing Node 24
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   audit:
     runs-on: ubuntu-latest
@@ -15,7 +10,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v6 # Standard for 2026
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       - name: Install
