@@ -2,54 +2,65 @@ name: ZSP Autonomous Auditor
 
 on:
   schedule:
-    # Runs every day at 23:00 UTC
     - cron: '0 23 * * *'
-  workflow_dispatch: # Allows manual trigger for live demos
+  workflow_dispatch:
 
 jobs:
   audit_job:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: 1. Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 
+          fetch-depth: 0
 
       - name: 2. Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: 3. Install Dependencies
+        run: pip install anthropic sec-api requests
+
+      - name: 4. Create Directories
         run: |
-          pip install anthropic sec-api requests
+          mkdir -p audits
+          mkdir -p dispatches
 
-      - name: 4. Create Audit Directory
-        run: mkdir -p audits
-
-      - name: 5. Run Domain Agents (The Scouts)
+      - name: 5. Run SEC Scout
+        continue-on-error: true
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           SEC_API_KEY: ${{ secrets.SEC_API_KEY }}
-          COURTLISTENER_API_KEY: ${{ secrets.COURTLISTENER_API_KEY }}
-        run: |
-          # These scouts pull the raw real-world data
-          python docket_scout.py
-          python supply_chain_scout.py
+        run: python dispatcher.py
 
-      - name: 6. Run Sovereign Dispatcher (The Brain & Injector)
-        # continue-on-error ensures the site updates even if AI credits are low
+      - name: 6. Run Legal Scout
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          COURTLISTENER_API_KEY: ${{ secrets.COURTLISTENER_API_KEY }}
+        run: python docket_scout.py
+
+      - name: 7. Run Supply Chain Scout
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python supply_chain_scout.py
+
+      - name: 8. Run Sovereign Dispatcher
         continue-on-error: true
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python sovereign_dispatcher.py
 
-      - name: 7. Commit and Push Results
+      - name: 9. Commit and Push Results
         run: |
           git config --global user.name "ZSP-Autonomous-Auditor"
           git config --global user.email "actions@github.com"
-          git add audits/*.md
-          git add index.html
-          # Only commit if changes exist to avoid workflow failure
+          git add audits/ || true
+          git add dispatches/ || true
+          git add index.html || true
           git diff --quiet && git diff --staged --quiet || (git commit -m "ZSP Cycle Update: $(date +'%Y-%m-%d %H:%M')" && git push)
