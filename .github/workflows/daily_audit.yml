@@ -27,24 +27,25 @@ jobs:
           mkdir -p audits
           mkdir -p dispatches
 
-      - name: 5. Run Domain Agents
+      - name: 5. Run Domain Agents (The Scouts)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           SEC_API_KEY: ${{ secrets.SEC_API_KEY }}
         run: |
           python dispatcher.py
           python docket_scout.py
+          python supply_chain_scout.py
 
-      - name: 6. Run Sovereign Dispatcher
+      - name: 6. Run Sovereign Dispatcher (The Brain)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python sovereign_dispatcher.py
 
-      - name: 7. Commit and Push
+      - name: 7. Commit and Push Results
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "ZSP-Bot"
           git add audits/ || true
           git add dispatches/ || true
-          git commit -m "ZSP Update: $(date)" || echo "No changes to commit"
+          git commit -m "ZSP Triple-Domain Update: $(date)" || echo "No changes to commit"
           git push || echo "Push skipped"
