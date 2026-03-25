@@ -22,4 +22,4 @@ Insufficient data for prediction.
 RAW SIGNAL:
 Dwell time increased 15% week over week. Labor contract negotiations entered third week without resolution. Two vessel departures delayed 48 hours.
 
-ERROR: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CZQTv5ayEpFdyuUjdcHaG'}
+ERROR: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CZQgBnvi2YSbMUPaAx9Up'}

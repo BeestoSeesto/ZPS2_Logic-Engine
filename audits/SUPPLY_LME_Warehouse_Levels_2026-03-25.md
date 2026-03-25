@@ -22,4 +22,4 @@ Insufficient data for prediction.
 RAW SIGNAL:
 Registered copper stocks declined 8% over 5 trading sessions. Cancelled warrants rising. Physical premium diverging from futures spread.
 
-ERROR: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CZQTv5prn47TVAEVsQQYn'}
+ERROR: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CZQgBoGnh416yRJgcixAp'}
