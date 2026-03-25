@@ -212,4 +212,4 @@ def run_sovereign_dispatcher():
 
 
 if __name__ == "__main__":
-    run_sovereign_dispatcher(0)
+    run_sovereign_dispatcher()
