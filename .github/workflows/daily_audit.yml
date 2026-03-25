@@ -31,7 +31,9 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           SEC_API_KEY: ${{ secrets.SEC_API_KEY }}
-        run: python dispatcher.py
+        run: |
+          python dispatcher.py
+          python docket_scout.py
 
       - name: 6. Run Sovereign Dispatcher
         env:
