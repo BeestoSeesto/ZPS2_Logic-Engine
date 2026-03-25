@@ -4,7 +4,7 @@ on:
   schedule:
     # Runs every day at 23:00 UTC
     - cron: '0 23 * * *'
-  workflow_dispatch: # Allows you to run it manually for demos
+  workflow_dispatch: # Allows manual trigger for live demos
 
 jobs:
   audit_job:
@@ -14,7 +14,7 @@ jobs:
       - name: 1. Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Required to push changes back to the repo
+          fetch-depth: 0 
 
       - name: 2. Set up Python
         uses: actions/setup-python@v4
@@ -34,12 +34,12 @@ jobs:
           SEC_API_KEY: ${{ secrets.SEC_API_KEY }}
           COURTLISTENER_API_KEY: ${{ secrets.COURTLISTENER_API_KEY }}
         run: |
-          # These scouts pull the raw data
+          # These scouts pull the raw real-world data
           python docket_scout.py
           python supply_chain_scout.py
 
       - name: 6. Run Sovereign Dispatcher (The Brain & Injector)
-        # The 'continue-on-error' ensures the website updates even if AI credits are low
+        # continue-on-error ensures the site updates even if AI credits are low
         continue-on-error: true
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -51,5 +51,5 @@ jobs:
           git config --global user.email "actions@github.com"
           git add audits/*.md
           git add index.html
-          # Only commit if there are actual changes to avoid errors
+          # Only commit if changes exist to avoid workflow failure
           git diff --quiet && git diff --staged --quiet || (git commit -m "ZSP Cycle Update: $(date +'%Y-%m-%d %H:%M')" && git push)
