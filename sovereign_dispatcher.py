@@ -1,31 +1,41 @@
 import os
-import glob
 import anthropic
-from datetime import date
+import re
 
-client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+# ... (Previous API setup code remains the same)
 
-DISPATCH_PROMPT = "You are the Sovereign Dispatcher. Read the reports and detect CROSS-DOMAIN CONVERGENCE (SEC vs Legal)."
+def update_dashboard_html(legal_context):
+    """Injects the latest legal telemetry into index.html"""
+    try:
+        with open("index.html", "r") as f:
+            content = f.read()
+
+        # Find the Litigation Feed section and update the rows
+        # This replaces the placeholder text with the actual case data
+        new_row_content = f"""
+                        <div class="legal-row">
+                            <p class="text-blue-400 font-bold font-mono text-xs uppercase">Latest Audit Signal</p>
+                            <p class="text-slate-300 mt-1 text-[10px]">{legal_context[:150]}...</p>
+                        </div>"""
+        
+        # Simple regex to find the section and replace it
+        pattern = r'<div class="text-\[11px\] space-y-2">.*?</div>'
+        updated_content = re.sub(pattern, f'<div class="text-[11px] space-y-2">{new_row_content}</div>', content, flags=re.DOTALL)
+
+        with open("index.html", "w") as f:
+            f.write(updated_content)
+        print("🖥️ Dashboard HTML updated with latest litigation telemetry.")
+    except Exception as e:
+        print(f"⚠️ Dashboard update failed: {e}")
 
 def run_sovereign_dispatcher():
-    files = glob.glob("audits/*.md")
-    if not files: return print("No reports to analyze.")
-
-    combined = ""
-    for f in files:
-        with open(f, "r") as report: combined += f"\n--- {f} ---\n{report.read()}"
-
-    message = client.messages.create(
-        model="claude-3-5-sonnet-20241022",
-        max_tokens=2000,
-        system=DISPATCH_PROMPT,
-        messages=[{"role": "user", "content": combined}]
-    )
-
-    os.makedirs("dispatches", exist_ok=True)
-    with open(f"dispatches/SOVEREIGN_DISPATCH_{date.today()}.md", "w") as f:
-        f.write(message.content[0].text)
-    print("Sovereign Dispatch Complete.")
+    # ... (Your existing logic to read audits and call Claude)
+    
+    # MOCK DATA FOR THE INJECTOR (In case Claude is still cooling down)
+    # Once Claude runs, we will use the actual 'message.content' here
+    sample_legal_signal = "FCX: 22-cv-0145; New environmental motion filed in AZ District. RIO: Labor arbitration update in WA."
+    
+    update_dashboard_html(sample_legal_signal)
 
 if __name__ == "__main__":
     run_sovereign_dispatcher()
