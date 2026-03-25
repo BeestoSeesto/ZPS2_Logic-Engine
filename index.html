@@ -1,28 +1,74 @@
-<div class="mt-12 p-6 bg-slate-900/30 border border-slate-800 rounded-lg">
-    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-[0.2em] mb-4">BtAA Behavioral Legend</h3>
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <div class="text-center">
-            <span class="text-xl font-bold text-green-500 font-mono">A</span>
-            <p class="text-[10px] text-slate-400 uppercase mt-1">Optimal Flow</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZSP v2.1 | Sovereign Intelligence Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        body { background-color: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .card { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 1.5rem; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .legal-row { border-bottom: 1px solid #334155; padding: 0.75rem 0; }
+        .legal-row:last-child { border-bottom: none; }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-12 flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-700 pb-8">
+            <div>
+                <h1 class="text-4xl font-bold tracking-tighter">ZSP v2.1 <span class="text-slate-500 font-light">| SOVEREIGN DISPATCH</span></h1>
+                <p class="text-slate-400 mt-2 text-lg italic">Autonomous Behavioral Telemetry & Cross-Domain Convergence</p>
+            </div>
+            <div class="mt-4 md:mt-0 text-right">
+                <span class="px-4 py-2 bg-slate-800 rounded-full text-xs font-mono text-blue-400 border border-blue-500/30">SYSTEM STATUS: NOMINAL</span>
+                <p class="text-[10px] text-slate-500 mt-2 uppercase tracking-widest">Last Sync: Daily 23:00 UTC</p>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <section class="card h-full">
+                    <h2 class="text-xl font-bold mb-6 flex items-center border-b border-slate-700 pb-4">
+                        <span class="mr-3 text-blue-500">🛰️</span> Sovereign Convergence Analysis
+                    </h2>
+                    <div class="p-6 bg-slate-900/50 rounded-lg font-mono text-sm leading-relaxed border border-slate-700">
+                        <p class="text-slate-400 italic">Waiting for BtAA calculation...</p>
+                        </div>
+                </section>
+            </div>
+
+            <div class="lg:col-span-1">
+                <section class="card h-full">
+                    <h2 class="text-lg font-bold mb-4 flex items-center">
+                        <span class="mr-2 text-red-500">⚖️</span> Litigation Feed
+                    </h2>
+                    <div class="text-[11px] space-y-2">
+                        <p class="text-slate-500 italic">Scanning dockets...</p>
+                        </div>
+                </section>
+            </div>
         </div>
-        <div class="text-center">
-            <span class="text-xl font-bold text-blue-400 font-mono">B</span>
-            <p class="text-[10px] text-slate-400 uppercase mt-1">Stable</p>
+
+        <div class="mt-12 p-6 bg-slate-900/30 border border-slate-800 rounded-lg">
+            <h3 class="text-xs font-bold text-slate-500 uppercase tracking-[0.2em] mb-4 text-center">BtAA Behavioral Legend</h3>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <div class="text-center"><span class="text-xl font-bold text-green-500 font-mono">A</span><p class="text-[9px] text-slate-400 uppercase mt-1">Optimal Flow</p></div>
+                <div class="text-center"><span class="text-xl font-bold text-blue-400 font-mono">B</span><p class="text-[9px] text-slate-400 uppercase mt-1">Stable</p></div>
+                <div class="text-center"><span class="text-xl font-bold text-yellow-500 font-mono">C</span><p class="text-[9px] text-slate-400 uppercase mt-1">Friction</p></div>
+                <div class="text-center"><span class="text-xl font-bold text-orange-500 font-mono">D</span><p class="text-[9px] text-slate-400 uppercase mt-1">Degrading</p></div>
+                <div class="text-center"><span class="text-xl font-bold text-red-500 font-mono">F</span><p class="text-[9px] text-slate-400 uppercase mt-1">Fractured</p></div>
+            </div>
+            <p class="text-[9px] text-slate-600 italic mt-4 text-center border-t border-slate-800 pt-4">
+                *Grades are generated via Behavioral Telemetry & Analytics (BtAA) scanning for cross-domain convergence.
+            </p>
         </div>
-        <div class="text-center">
-            <span class="text-xl font-bold text-yellow-500 font-mono">C</span>
-            <p class="text-[10px] text-slate-400 uppercase mt-1">Friction</p>
-        </div>
-        <div class="text-center">
-            <span class="text-xl font-bold text-orange-500 font-mono">D</span>
-            <p class="text-[10px] text-slate-400 uppercase mt-1">Degrading</p>
-        </div>
-        <div class="text-center">
-            <span class="text-xl font-bold text-red-500 font-mono">F</span>
-            <p class="text-[10px] text-slate-400 uppercase mt-1">Fractured</p>
-        </div>
+
+        <footer class="mt-8 pt-8 border-t border-slate-800 flex justify-between items-center text-slate-500 text-[10px] uppercase tracking-widest font-semibold">
+            <p>&copy; 2026 Zavala Sovereignty Protocol</p>
+            <p>Protected under MIT License</p>
+        </footer>
     </div>
-    <p class="text-[10px] text-slate-600 italic mt-4 text-center border-t border-slate-800 pt-4">
-        *Grades are generated via Behavioral Telemetry & Analytics (BtAA) scanning for cross-domain convergence.
-    </p>
-</div>
+</body>
+</html>
