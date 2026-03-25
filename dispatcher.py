@@ -6,7 +6,6 @@ from datetime import datetime, date
 
 client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
-# ── SOVEREIGN DISPATCHER SYSTEM PROMPT ──────────────────────────────────────
 DISPATCHER_PROMPT = """
 You are the Sovereign Dispatcher, the master orchestration agent of the 
 Zavala Sovereignty Protocol (ZSP) v2.1.
@@ -99,36 +98,32 @@ Read the pattern across reports. The convergence IS the signal.
 
 
 def load_todays_reports():
-    """Load all ZSP audit reports generated today."""
     today = date.today().strftime("%Y-%m-%d")
     reports = {}
-    
-    # Load from audits folder
+
     audit_files = glob.glob(f"audits/*_{today}.md")
-    
-    # If no reports today, load most recent available
+
     if not audit_files:
         audit_files = glob.glob("audits/*.md")
         if audit_files:
             audit_files = sorted(audit_files, key=os.path.getmtime, reverse=True)[:5]
-            print(f"⚠️  No reports from today. Loading {len(audit_files)} most recent.")
-    
+            print(f"No reports from today. Loading {len(audit_files)} most recent.")
+
     for filepath in audit_files:
         filename = os.path.basename(filepath)
         name = filename.replace(".md", "")
         with open(filepath, "r") as f:
             reports[name] = f.read()
-        print(f"📂 Loaded: {filename}")
-    
+        print(f"Loaded: {filename}")
+
     return reports
 
 
 def parse_quick_signal(report_text):
-    """Extract state and stage from a ZSP report for the domain summary."""
     state = "UNKNOWN"
     stage = "N/A"
     conductivity = "N/A"
-    
+
     if "DEAD LINE" in report_text:
         state = "DEAD LINE"
     elif "CORRODED" in report_text:
@@ -137,47 +132,46 @@ def parse_quick_signal(report_text):
         state = "INSULATOR"
     elif "CONDUCTOR" in report_text:
         state = "CONDUCTOR"
-    
+
     stage_match = re.search(r"Stage ([1-6])", report_text)
     if stage_match:
         stage = f"Stage {stage_match.group(1)}"
-    
+
     score_match = re.search(r"Conductivity Score[:\s]+(\d+)", report_text)
     if score_match:
         conductivity = score_match.group(1)
-    
+
     return state, stage, conductivity
 
 
 def run_sovereign_dispatcher():
-    print("🛰️  SOVEREIGN DISPATCHER: Initiating cross-domain analysis...")
+    print("SOVEREIGN DISPATCHER: Initiating cross-domain analysis...")
     print("=" * 60)
-    
-    # Load today's reports
+
     reports = load_todays_reports()
-    
+
     if not reports:
-        print("📭 No ZSP reports available. Domain agents must run first.")
-        return
-    
-    print(f"\n📊 Reports loaded: {len(reports)}")
+        print("No ZSP reports available. Domain agents must run first.")
+        print("Dispatcher standing by. No action required.")
+        exit(0)
+
+    print(f"\nReports loaded: {len(reports)}")
     for name in reports.keys():
         state, stage, conductivity = parse_quick_signal(reports[name])
         print(f"   {name}: {state} | {stage} | Conductivity: {conductivity}")
-    
-    # Build the combined input for the Dispatcher
+
     combined_input = f"DISPATCH REQUEST: Analyze the following {len(reports)} ZSP Domain Agent reports.\n"
     combined_input += f"Analysis Date: {date.today().strftime('%Y-%m-%d')}\n\n"
     combined_input += "=" * 60 + "\n\n"
-    
+
     for report_name, report_content in reports.items():
         combined_input += f"DOMAIN AGENT REPORT: {report_name}\n"
         combined_input += "-" * 40 + "\n"
         combined_input += report_content
         combined_input += "\n\n" + "=" * 60 + "\n\n"
-    
-    print(f"\n🧠 Sovereign Dispatcher: Running cross-domain analysis...")
-    
+
+    print(f"\nSovereign Dispatcher: Running cross-domain analysis...")
+
     try:
         message = client.messages.create(
             model="claude-3-5-sonnet-20241022",
@@ -188,34 +182,33 @@ def run_sovereign_dispatcher():
                 "content": combined_input
             }]
         )
-        
+
         dispatch_report = message.content[0].text
-        
-        # Save the dispatch report
+
         os.makedirs("dispatches", exist_ok=True)
         today = date.today().strftime("%Y-%m-%d")
         dispatch_path = f"dispatches/SOVEREIGN_DISPATCH_{today}.md"
-        
+
         with open(dispatch_path, "w") as f:
             f.write(dispatch_report)
-        
-        print(f"\n✅ Sovereign Dispatch complete: {dispatch_path}")
+
+        print(f"\nSovereign Dispatch complete: {dispatch_path}")
         print("\n" + "=" * 60)
         print(dispatch_report)
         print("=" * 60)
-        
-        # Check escalation level for exit code signaling
+
         if "CRITICAL" in dispatch_report:
-            print("\n🚨 CRITICAL CONVERGENCE DETECTED — Immediate action required")
+            print("\nCRITICAL CONVERGENCE DETECTED — Immediate action required")
         elif "ESCALATE" in dispatch_report:
-            print("\n⚠️  DUAL CONVERGENCE DETECTED — Brief decision maker")
+            print("\nDUAL CONVERGENCE DETECTED — Brief decision maker")
         elif "MONITOR" in dispatch_report:
-            print("\n👁️  SINGLE FLAG — Monitor next cycle")
+            print("\nSINGLE FLAG — Monitor next cycle")
         else:
-            print("\n✅ SYSTEM NOMINAL — No cross-domain convergence detected")
-            
+            print("\nSYSTEM NOMINAL — No cross-domain convergence detected")
+
     except Exception as e:
-        print(f"❌ Dispatcher reasoning failure: {e}")
+        print(f"Dispatcher reasoning failure: {e}")
+        exit(1)
 
 
 if __name__ == "__main__":
