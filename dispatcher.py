@@ -208,7 +208,7 @@ def run_sovereign_dispatcher():
 
     except Exception as e:
         print(f"Dispatcher reasoning failure: {e}")
-        exit(1)
+        exit()
 
 
 if __name__ == "__main__":
