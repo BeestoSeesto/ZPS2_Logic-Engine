@@ -20,6 +20,21 @@ Insufficient data for prediction.
 [MONITOR]
 
 RAW DATA:
-Connection failed: HTTPSConnectionPool(host='www.courtlistener.com', port=443): Read timed out. (read timeout=15)
+CASE: Unknown
+COURT: District Court, S.D. Texas
+DATE FILED: Unknown
+STATUS: Unknown
+---
+CASE: Unknown
+COURT: District Court, W.D. Texas
+DATE FILED: Unknown
+STATUS: Unknown
+---
+CASE: Unknown
+COURT: District Court, D. Arizona
+DATE FILED: Unknown
+STATUS: Unknown
+---
 
-ERROR: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-sonnet-20241022'}, 'request_id': 'req_011CcKDWkcaPTZW1GmDMWpuJ'}
+
+ERROR: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-sonnet-20241022'}, 'request_id': 'req_011CcM6dYaAVFvy8QgiqinYF'}

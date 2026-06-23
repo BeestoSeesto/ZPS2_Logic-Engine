@@ -22,4 +22,4 @@ Insufficient data for prediction.
 RAW SIGNAL:
 Vessel queue at 12 ships above seasonal average. Draft restrictions remain from low water levels. Average transit time up 18 hours from baseline.
 
-ERROR: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-sonnet-20241022'}, 'request_id': 'req_011CcKDWqSnq4KB3PuKqQoUs'}
+ERROR: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-sonnet-20241022'}, 'request_id': 'req_011CcM6dczphW4QmmrBDgnC7'}
