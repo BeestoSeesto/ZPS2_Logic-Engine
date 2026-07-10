@@ -22,4 +22,4 @@ Insufficient data for prediction.
 RAW SIGNAL:
 Dwell time increased 15% week over week. Labor contract negotiations entered third week without resolution. Two vessel departures delayed 48 hours.
 
-ERROR: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-sonnet-20241022'}, 'request_id': 'req_011CcsQ7fy3SV6GHGDDjnsiT'}
+ERROR: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-sonnet-20241022'}, 'request_id': 'req_011CcuHPmV4XRs7Aen6L5YqQ'}
