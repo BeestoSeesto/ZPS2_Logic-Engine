@@ -22,4 +22,4 @@ Insufficient data for prediction.
 RAW SIGNAL:
 Registered copper stocks declined 8% over 5 trading sessions. Cancelled warrants rising. Physical premium diverging from futures spread.
 
-ERROR: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-sonnet-20241022'}, 'request_id': 'req_011CdnY7pkGHLaAe1Lq38ytC'}
+ERROR: Error code: 404 - {'type': 'error', 'error': {'type': 'not_found_error', 'message': 'model: claude-3-5-sonnet-20241022'}, 'request_id': 'req_011CdpGASfhbB415vkeVatMG'}
